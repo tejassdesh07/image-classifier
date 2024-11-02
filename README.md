@@ -6,8 +6,7 @@ This project is an image classifier that identifies whether images contain QR co
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
+
 
 ## Features
 - Resizes images to a maximum of 500x500 pixels.
@@ -23,8 +22,10 @@ This project is an image classifier that identifies whether images contain QR co
   - `Pillow`
   - `python-dotenv`
 
+
 ## Installation
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/tejassdesh07/image-classifier.git
    ```
@@ -40,6 +41,7 @@ This project is an image classifier that identifies whether images contain QR co
    ```
    OPENAI_API_KEY=your_api_key_here
    ```
+
 
 ## Usage
 1. Place your images in the `./data/` directory.
