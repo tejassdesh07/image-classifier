@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI
 import base64
 import os
 import shutil
@@ -6,7 +6,11 @@ from PIL import Image
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
 
 def compress_image(image_path, output_path, max_size=(500, 500)):
     with Image.open(image_path) as img:
@@ -23,7 +27,7 @@ def classify_and_move_image(image_path):
 
     base64_image = encode_image(compressed_image_path)
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
@@ -42,7 +46,8 @@ def classify_and_move_image(image_path):
         ],
     )
 
-    result = response['choices'][0]['message']['content']
+    # result = response['choices'][0]['message']['content']
+    result = response.choices[0].message.content
     print(f"Processing {os.path.basename(image_path)}: {result}")
 
     target_folder = "./qr_codes/" if "QR code detected" in result else "./normal_photos/"
