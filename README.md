@@ -1,53 +1,65 @@
-# Image Classifier
+## Setting Up the Environment
 
-This project is an image classifier that identifies whether images contain QR codes or are regular photos. It utilizes the OpenAI API for classification and incorporates image processing techniques for resizing and encoding.
+### 1. Set up the virtual environment
 
-## Table of Contents
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-
-
-## Features
-- Resizes images to a maximum of 500x500 pixels.
-- Compresses images for efficient processing.
-- Encodes images to Base64 format for API submission.
-- Classifies images as either containing a QR code or as normal photos.
-- Organizes images into separate folders based on classification.
-
-## Requirements
-- Python 3.x
-- Required libraries are listed in `requirements.txt`:
-  - `openai`
-  - `Pillow`
-  - `python-dotenv`
-
-
-## Installation
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/tejassdesh07/image-classifier.git
-   ```
+#### On Windows:
+1. Open a terminal or Command Prompt.
 2. Navigate to the project directory:
    ```bash
-   cd image-classifier
+   cd path/to/image-classifier
    ```
-3. Install the required libraries:
+3. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   ```
+4. Activate the virtual environment:
+   ```bash
+   venv\Scripts\activate
+   ```
+
+#### On macOS:
+1. Open a terminal.
+2. Navigate to the project directory:
+   ```bash
+   cd path/to/image-classifier
+   ```
+3. Create a virtual environment:
+   ```bash
+   python3 -m venv venv
+   ```
+4. Activate the virtual environment:
+   ```bash
+   source venv/bin/activate
+   ```
+
+### 2. Install the required libraries
+With the virtual environment activated, install the dependencies from `requirements.txt`:
+
    ```bash
    pip install -r requirements.txt
    ```
-4. Create a `.env` file in the root directory and add your OpenAI API key:
+
+---
+
+### 3. Set up the `.env` file for the OpenAI API key
+
+1. In the project root directory, create a file named `.env`:
+   ```bash
+   touch .env
+   ```
+2. Open the `.env` file in a text editor and add your OpenAI API key as follows:
    ```
    OPENAI_API_KEY=your_api_key_here
    ```
 
+---
 
-## Usage
-1. Place your images in the `./data/` directory.
-2. Run the main script:
+### 4. Run the Classifier Script
+
+Place your images in the `./data/` folder, and then run the classifier:
+
    ```bash
    python main.py
    ```
-3. The images will be classified and moved to either the `./qr_codes/` or `./normal_photos/` folder based on the classification result.
 
+This setup will classify the images and move them to either the `./qr_codes/` or `./normal_photos/` folder based on the classification results.
