@@ -57,17 +57,8 @@ With the virtual environment activated, install the dependencies from `requireme
 pip install -r requirements.txt
 ```
 
-### 4. Set Up the OpenAI API Key (if applicable)
-If an OpenAI API key or other external API keys are required, store them securely in a `.env` file.
-
-1. In the project root directory, create a file named `.env`:
-   ```bash
-   touch .env
-   ```
-2. Open the `.env` file in a text editor and add your API key:
-   ```makefile
-   OPENAI_API_KEY=your_api_key_here
-   ```
+### 4. Place .env File
+Place the .env file in the root directory of the project (the same directory where app.py is located). This will ensure that the application can securely access the required keys.
 
 ### 5. Run the Application
 Start the Flask application:
@@ -90,4 +81,5 @@ The app will be accessible locally at [http://127.0.0.1:5000](http://127.0.0.1:5
 - `static/qr_codes`: Stores classified QR code images.
 - `static/normal_photos`: Stores classified normal photos.
 
-
+### Note:
+The `static` folder, along with its subdirectories (`uploads/data`, `qr_codes`, and `normal_photos`), will be automatically created once an image is uploaded for classification. There is no need to manually create these folders.
