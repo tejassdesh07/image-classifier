@@ -1,8 +1,26 @@
-## Setting Up the Environment
 
-### 1. Set up the virtual environment
+# Image Classifier
 
-#### On Windows:
+A Flask-based web application that allows users to upload images, classify them into QR codes and normal photos, and view classified images in a gallery.
+
+## Prerequisites
+
+- Python 3.7 or higher
+
+## Setup Guide
+
+### 1. Clone or Download the Repository
+To download the files to your computer, you can either:
+- [Download ZIP](https://github.com/tejassdesh07/image-classifier/archive/refs/heads/main.zip) and extract the repository to your local machine, or
+- Clone the repository using Git:
+  ```bash
+  git clone https://github.com/tejassdesh07/image-classifier.git
+  ```
+
+### 2. Set Up the Virtual Environment
+Using a virtual environment helps keep dependencies organized and avoids conflicts with other projects.
+
+#### On Windows
 1. Open a terminal or Command Prompt.
 2. Navigate to the project directory:
    ```bash
@@ -14,10 +32,10 @@
    ```
 4. Activate the virtual environment:
    ```bash
-   venv\Scripts\activate
+   venv\Scriptsctivate
    ```
 
-#### On macOS:
+#### On macOS
 1. Open a terminal.
 2. Navigate to the project directory:
    ```bash
@@ -32,34 +50,44 @@
    source venv/bin/activate
    ```
 
-### 2. Install the required libraries
+### 3. Install Required Libraries
 With the virtual environment activated, install the dependencies from `requirements.txt`:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
----
-
-### 3. Set up the `.env` file for the OpenAI API key
+### 4. Set Up the OpenAI API Key (if applicable)
+If an OpenAI API key or other external API keys are required, store them securely in a `.env` file.
 
 1. In the project root directory, create a file named `.env`:
    ```bash
    touch .env
    ```
-2. Open the `.env` file in a text editor and add your OpenAI API key as follows:
-   ```
+2. Open the `.env` file in a text editor and add your API key:
+   ```makefile
    OPENAI_API_KEY=your_api_key_here
    ```
 
----
+### 5. Run the Application
+Start the Flask application:
 
-### 4. Run the Classifier Script
+```bash
+python app.py
+```
 
-Place your images in the `./data/` folder, and then run the classifier:
+The app will be accessible locally at [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
-   ```bash
-   python main.py
-   ```
+## Using the App
 
-This setup will classify the images and move them to either the `./qr_codes/` or `./normal_photos/` folder based on the classification results.
+1. Open the app in your web browser by visiting [http://127.0.0.1:5000](http://127.0.0.1:5000).
+2. Use the "Choose Files" button to upload images, then click "Upload."
+3. View the classified images in the gallery by accessing separate sections for QR codes and normal photos.
+
+## Directory Structure
+
+- `static/uploads/data`: Temporary storage for uploaded images before classification.
+- `static/qr_codes`: Stores classified QR code images.
+- `static/normal_photos`: Stores classified normal photos.
+
+

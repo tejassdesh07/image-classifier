@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Classification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .drag-drop {
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 20px;
+            cursor: pointer;
+            background-color: #ecf6fd;
+            transition: background-color 0.3s ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        .drag-drop:hover {
+            background-color: #d5eaf8;
+        }
+
+        .drag-drop p {
+            font-size: 1.1rem;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+            overflow-y: auto;
+            max-height: 250px;
+            width: 100%;
+        }
+
+        .file-list li {
+            background-color: #f1f1f1;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-list li .remove {
+            cursor: pointer;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .drag-drop {
+                padding: 30px 20px;
+            }
+
+            .button {
+                width: 100%;
+                padding: 15px;
+                position: static;
+                margin-top: 20px;
+            }
+        }
+
+        /* File List Scrollbar */
+        .file-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .file-list::-webkit-scrollbar-thumb {
+            background-color: #3498db;
+            border-radius: 10px;
+        }
+
+        .file-list::-webkit-scrollbar-track {
+            background-color: #ecf6fd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="{{ url_for('upload_and_process') }}" method="POST" enctype="multipart/form-data">
+            <h1>Image Upload and Classification</h1>
+
+            <!-- Image Upload Form -->
+            <div class="upload-section">
+                <label for="file-upload" class="drag-drop">
+                    <p>Drag & Drop your images here</p>
+                    <p>Or click to browse</p>
+                    <input type="file" id="file-upload" name="images" multiple required>
+                </label>
+                <ul class="file-list" id="file-list"></ul>
+            </div>
+
+            <!-- Submit Button (always visible) -->
+            <button type="button" class="button" id="submit-btn">Run Process</button>
+        </form>
+    </div>
+
+    <script>
+        // File upload handling and drag & drop feature
+        const fileInput = document.getElementById('file-upload');
+        const fileList = document.getElementById('file-list');
+        const dragDropArea = document.querySelector('.drag-drop');
+        const submitButton = document.getElementById('submit-btn');  // Submit button
+        const form = document.querySelector('form');
+    
+        // Handle file selection via file input
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+    
+        // Handle drag and drop
+        dragDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragDropArea.style.backgroundColor = '#d5eaf8';
+        });
+    
+        dragDropArea.addEventListener('dragleave', () => {
+            dragDropArea.style.backgroundColor = '#ecf6fd';
+        });
+    
+        dragDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragDropArea.style.backgroundColor = '#ecf6fd';
+            handleFiles(e.dataTransfer.files);
+        });
+    
+        // Handle files (display names in list)
+        function handleFiles(files) {
+            fileList.innerHTML = ''; // Clear the existing file list
+            Array.from(files).forEach((file) => {
+                let li = document.createElement('li');
+                li.textContent = file.name;
+    
+                let removeBtn = document.createElement('span');
+                removeBtn.textContent = 'Remove';
+                removeBtn.classList.add('remove');
+                removeBtn.onclick = () => {
+                    li.remove();
+                };
+    
+                li.appendChild(removeBtn);
+                fileList.appendChild(li);
+            });
+        }
+    
+        // Handle form submission on button click
+        submitButton.addEventListener('click', function() {
+            // Check if files are selected, then submit the form
+            if (fileInput.files.length > 0) {
+                form.submit();  // Submit the form
+            } else {
+                alert('Please select a file to upload.');  // Alert if no file is selected
+            }
+        });
+    </script>
+</body>
+
+</html>
