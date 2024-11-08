@@ -32,7 +32,7 @@ Using a virtual environment helps keep dependencies organized and avoids conflic
    ```
 4. Activate the virtual environment:
    ```bash
-   venv\Scriptsctivate
+   venv\Scripts\activate
    ```
 
 #### On macOS
